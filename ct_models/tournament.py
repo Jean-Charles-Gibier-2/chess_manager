@@ -1,13 +1,13 @@
 from ct_models.player import Player
 
 class Tournament:
-    def __init__(self, name, address, city, country, date):
+    def __init__(self, name, address, city, country, date, players):
         self.name = name
         self.address = address
         self.city = city
         self.country = country
         self.date = date
-        self.players = []
+        self.players = players
 
     def __str__(self):
         pass

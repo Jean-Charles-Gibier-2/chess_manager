@@ -32,27 +32,35 @@ class DataManager:
     # matchs are missing
     @staticmethod
     def json_to_objects():
+        DataManager.read()
         json_players = DataManager.json_values.get("players", {})
-        for ime, player in enumerate(json_players):
-            DataManager.object_values['players'][ime] = Player.serialize(**player)
+        DataManager.object_values["players"] = {}
+        for ime, player in json_players.items():
+            DataManager.object_values["players"].update({ime: Player.deserialize(player)})
 
-        json_tournaments = DataManager.json_values.get("tournaments")
-        for name, tournament in enumerate(json_tournaments):
-            DataManager.object_values['tournaments'] = Tournament.serialize(**tournament)
-            for player_ime in tournament['players']:
-                player = DataManager.object_values['players'][player_ime]
-                DataManager.object_values['tournaments'].players.append(player)
+        json_tournaments = DataManager.json_values.get("tournaments", {})
+        DataManager.object_values["tournaments"] = {}
+        for name, tournament in json_tournaments.items():
+            DataManager.object_values['tournaments'].update({name: Tournament.deserialize(tournament)})
+            DataManager.object_values['tournaments'][name].players = []
+            for player_ime in json_tournaments[name].get('players', []):
+                try:
+                    player = DataManager.object_values['players'][player_ime]
+                    DataManager.object_values['tournaments'][name].add_player(player)
+                except KeyError:
+                    print(f"Could not find player {player_ime}")
+        return True
 
 
     @staticmethod
     def objects_to_json():
         object_players = DataManager.object_values.get("players", {})
-        for ime, player in enumerate(object_players):
-            DataManager.json_values['players'][ime] = Player.deserialize(player)
+        DataManager.json_values['players'] = {}
+        for ime, player in object_players.items():
+            DataManager.json_values['players'][ime] = Player.serialize(player)
 
         objects_tournaments = DataManager.object_values.get("tournaments")
-        for name, tournament in enumerate(objects_tournaments):
-            DataManager.json_values['tournaments'] = Tournament.deserialize(**tournament)
-            # for player_ime in tournament['players']:
-            #     player = DataManager.json_values['players'][player_ime]
-            #     DataManager.object_values['tournaments']
+        DataManager.json_values['tournaments'] = {}
+        for name, tournament in objects_tournaments.items():
+            DataManager.json_values['tournaments'][name] = Tournament.serialize(tournament)
+        DataManager.write()

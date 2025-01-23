@@ -18,13 +18,15 @@ def suppress_tournament(controller):
 
 
 def list_tournaments(controller):
-    print("list_tournaments")
+    tournament_view = TournamentView()
+    tournament_view.list()
 
 
 def add_player_in_tournament(controller, tournament=None, player=None):
     tournament_view = TournamentView()
-    tournament = tournament_view.add_player(tournament=None, player=None)
-    tournament.save()
+    tournament = tournament_view.add_player(tournament, player)
+    if tournament:
+        tournament.save()
 
 def register_player(controller):
     player_view = PlayerView()

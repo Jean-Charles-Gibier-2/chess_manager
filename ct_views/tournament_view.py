@@ -1,8 +1,9 @@
-import  sys
-
+import sys
+from json import dumps
 from ct_models.player import Player
 from ct_models.tournament import Tournament
 from data_manager import DataManager
+from tools import readline
 
 
 class TournamentView:
@@ -25,28 +26,31 @@ class TournamentView:
             address=address,
             city=city,
             country=country,
-            date=date
+            date=date,
+            players=[]
         )
         return tournament
 
-    def display(self):
-        pass
+    def display(self, tournament: Tournament):
+        print(dumps(tournament.serialize()))
 
-    def add_player(self, tournament: Tournament, player: Player):
+
+    def list(self):
+        for tournament in DataManager.object_values.get("tournaments", {}).values():
+            self.display(tournament)
+
+    def add_player(self, tournament: Tournament = None, player: Player = None):
 
         if not tournament:
-            print(f"Entrez le nom du tournois:")
-            tournament_name = sys.stdin.readline().strip()
-            tournament_json = DataManager.json_values.get("tournaments", {}).get(tournament_name)
-            tournament = Tournament(**tournament_json)
+            tournament_name = readline("Entrez le nom du tournois :")
+            tournament = DataManager.object_values.get("tournaments", {}).get(tournament_name)
 
         if not player:
-            print(f"Entrez le n° ime du jouer:")
-            player_ime = sys.stdin.readline().strip()
-            player_json = DataManager.json_values.get("players", {}).get(player_ime)
-            player = Tournament(**player_json)
+            player_ime = readline(f"Entrez le n° ime du joueur:")
+            player = DataManager.object_values.get("players", {}).get(player_ime)
 
-
+        if player and tournament:
+            tournament.add_player(player)
 
 
     def save(self, tournament: Tournament):
@@ -64,5 +68,5 @@ class TournamentView:
         DataManager.json_values["tournaments"] = tournaments
         DataManager.write()
 
-    def get(self):
-        pass
+    def get(self, name):
+        return DataManager.object_values.get("tournaments", {}).get(name)

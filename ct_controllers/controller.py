@@ -10,7 +10,8 @@ from ct_controllers.actions import (
     suppress_player,
     list_players, add_player_in_tournament
 )
-from ct_models.tournament import Tournament
+
+from data_manager import DataManager
 
 
 class Menu:
@@ -34,9 +35,7 @@ class Menu:
         while response is None:
             self.print_menu()
             response = self.get_response()
-            if response == 0:
-                sys.exit(0)
-            elif response != 9:
+            if response not in [0, 9, None]:
                 action = self.action_choices[response-1]
                 if isinstance(action, Menu):
                     response = action.start()
@@ -73,8 +72,8 @@ class Controller:
                         "Enregistrer un tournoi",
                         "Modifier un tournoi",
                         "Supprimer un tournoi",
-                        "Lister les tournois ",
-                        "ajouter un joueur a un tournois"
+                        "Lister les tournoi",
+                        "ajouter un joueur à un tournoi"
                     ],
                     [
                         register_tournament,
@@ -104,5 +103,6 @@ class Controller:
         )
 
     def start(self):
-        # print("Controller start")
+        DataManager.json_to_objects()
         self.menu.start()
+        DataManager.objects_to_json()

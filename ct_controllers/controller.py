@@ -8,7 +8,9 @@ from ct_controllers.actions import (
     register_player,
     modify_player,
     suppress_player,
-    list_players, add_player_in_tournament
+    list_players,
+    add_player_in_tournament,
+    sup_player_from_tournament
 )
 
 from data_manager import DataManager
@@ -73,14 +75,16 @@ class Controller:
                         "Modifier un tournoi",
                         "Supprimer un tournoi",
                         "Lister les tournoi",
-                        "ajouter un joueur à un tournoi"
+                        "ajouter un joueur à un tournoi",
+                        "supprimer un joueur d'un tournoi"
                     ],
                     [
                         register_tournament,
                         modify_tournament,
                         suppress_tournament,
                         list_tournaments,
-                        add_player_in_tournament
+                        add_player_in_tournament,
+                        sup_player_from_tournament
                     ]
                 ),
                 Menu(

@@ -9,8 +9,10 @@ def register_tournament(controller):
     tournament_view.save(tournament)
 
 
-def modify_tournament (controller):
-    print("modify_tournament")
+def modify_tournament(controller):
+    tournament_view = TournamentView()
+    tournament = tournament_view.update()
+    tournament_view.save(tournament)
 
 
 def suppress_tournament(controller):
@@ -24,9 +26,12 @@ def list_tournaments(controller):
 
 def add_player_in_tournament(controller, tournament=None, player=None):
     tournament_view = TournamentView()
-    tournament = tournament_view.add_player(tournament, player)
-    if tournament:
-        tournament.save()
+    return tournament_view.add_player(tournament, player)
+
+
+def sup_player_from_tournament(controller, tournament=None, player=None):
+    tournament_view = TournamentView()
+    return tournament_view.sup_player(tournament, player)
 
 def register_player(controller):
     player_view = PlayerView()

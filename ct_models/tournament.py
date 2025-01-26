@@ -28,3 +28,9 @@ class Tournament:
 
     def add_player(self, player: Player):
         self.players.append(player)
+
+    def sup_player(self, player: Player):
+        if self.players and player.ime in self.players:
+            self.players.remove(player.ime)
+        else:
+            return True

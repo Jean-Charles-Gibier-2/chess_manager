@@ -63,4 +63,4 @@ class DataManager:
         DataManager.json_values['tournaments'] = {}
         for name, tournament in objects_tournaments.items():
             DataManager.json_values['tournaments'][name] = Tournament.serialize(tournament)
-        DataManager.write()
+            DataManager.write()

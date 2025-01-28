@@ -94,12 +94,16 @@ class Controller:
                         "Modifier un joueur",
                         "Supprimer un joueur",
                         "Lister les joueurs",
+                        "ajouter un joueur à un tournoi",
+                        "supprimer un joueur d'un tournoi"
                     ],
                     [
                         register_player,
                         modify_player,
                         suppress_player,
-                        list_players
+                        list_players,
+                        add_player_in_tournament,
+                        sup_player_from_tournament
                     ]
                 )
             ],

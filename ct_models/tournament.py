@@ -30,7 +30,7 @@ class Tournament:
         self.players.append(player)
 
     def sup_player(self, player: Player):
-        if self.players and player.ime in self.players:
-            self.players.remove(player.ime)
+        if self.players and player in self.players:
+            self.players.remove(player)
         else:
             return True

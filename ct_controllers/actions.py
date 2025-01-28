@@ -48,4 +48,5 @@ def suppress_player(controller):
 
 
 def list_players(controller):
-    print("list_players")
+    player_view = PlayerView()
+    player_view.list()
